@@ -36,7 +36,7 @@ var isValid1 = function(s) {
 
 // Shorter, but less readable: uses RegEx for
 // matching the brace characters
-const isValid = (s) => {
+const isValid2 = (s) => {
     while (s.length !== 0) {
         const o = s;
         s = s.replace(/\(\)|\[\]|\{\}/, '');
@@ -45,8 +45,40 @@ const isValid = (s) => {
         }
     }
     return true;
-}
+};
 
-assert.strictEqual(true, isValid("[][]()()()()[]"));
+const isValid = (s) => {
+    const stack = []; // has push, pop, and length
+    for (let c of s) {
+        console.log(stack);
+        if (/\[|\(|\{/.test(c)) {
+            stack.push(c);
+        } else {
+            // get last pushed
+            const last = stack[stack.length - 1];
+            switch (c) {
+                case '}':
+                    if (last === '{') {
+                        stack.pop();
+                    }
+                    break;
+                case ')':
+                    if (last === '(') {
+                        stack.pop();
+                    }                    
+                    break;
+                case ']':
+                    if (last === '[') {
+                        stack.pop();
+                    }                    
+            }
+        }
+    }
+    
+    return stack.length === 0;
+
+};
+
+//assert.strictEqual(true, isValid("[][]()()()()[]"));
 assert.strictEqual(true, isValid("{[({})]}"));
-assert.strictEqual(false, isValid("[(])"));
+//assert.strictEqual(false, isValid("[(])"));
