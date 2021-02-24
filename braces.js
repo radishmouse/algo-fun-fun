@@ -48,6 +48,7 @@ const isValid2 = (s) => {
 };
 
 const isValid = (s) => {
+    if (s.length %2 !== 0) return false;
     const stack = []; // has push, pop, and length
     for (let c of s) {
         console.log(stack);
@@ -60,17 +61,26 @@ const isValid = (s) => {
                 case '}':
                     if (last === '{') {
                         stack.pop();
+                    } else {
+                        return false;
                     }
                     break;
                 case ')':
                     if (last === '(') {
                         stack.pop();
-                    }                    
+                    } else {
+                        return false;
+                    }                 
                     break;
                 case ']':
-                    if (last === '[') {
+                    if (last === '[') {                        
                         stack.pop();
-                    }                    
+                    } else {
+                        return false;
+                    }
+                    break;
+                default:
+                    return false;                    
             }
         }
     }
@@ -79,6 +89,8 @@ const isValid = (s) => {
 
 };
 
-//assert.strictEqual(true, isValid("[][]()()()()[]"));
+assert.strictEqual(true, isValid("[][]()()()()[]"));
 assert.strictEqual(true, isValid("{[({})]}"));
-//assert.strictEqual(false, isValid("[(])"));
+assert.strictEqual(false, isValid("[(])"));
+assert.strictEqual(true, isValid("()[]{}"));
+assert.strictEqual(false, isValid("([}}])"));
