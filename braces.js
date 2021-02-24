@@ -6,7 +6,7 @@
 // Open brackets must be closed in the correct order.
 const assert = require('assert');
 
-var isValid = function(s) {
+var isValid1 = function(s) {
     if (s.length % 2 !== 0) return false;
     // const arr = s.split('');
     // we have an array of strings
@@ -34,6 +34,18 @@ var isValid = function(s) {
 
 };
 
+// Shorter, but less readable: uses RegEx for
+// matching the brace characters
+const isValid = (s) => {
+    while (s.length !== 0) {
+        const o = s;
+        s = s.replace(/\(\)|\[\]|\{\}/, '');
+        if (o === s) {
+            return false;
+        }
+    }
+    return true;
+}
 
 assert.strictEqual(true, isValid("[][]()()()()[]"));
 assert.strictEqual(true, isValid("{[({})]}"));
